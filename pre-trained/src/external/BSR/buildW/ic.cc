@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <memory.h>
+#include <algorithm>
 
 #include "image.hh"
 #include "array.hh"

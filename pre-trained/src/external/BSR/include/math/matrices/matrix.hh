@@ -32,11 +32,11 @@
 /* 
  * Enable/disable bounds checking for matrices.
  */
-#if CONFIG__SAFETY__CHECK_BOUNDS
-   #define MATH__MATRICES__MATRIX__CHECK_BOUNDS (true)
-#else
-   #define MATH__MATRICES__MATRIX__CHECK_BOUNDS (false)
-#endif
+//#if CONFIG__SAFETY__CHECK_BOUNDS
+   #define MATH__MATRICES__MATRIX__CHECK_BOUNDS 1
+//#else
+//  #define MATH__MATRICES__MATRIX__CHECK_BOUNDS (false)
+//#endif
 
 /*
  * Declare existence of libraries that will need friend access to matrices.
@@ -1274,12 +1274,12 @@ public:
     * Resize (vector).
     * Return the resized vector.
     */
-   friend matrix<T,Syn> resize<T,Syn>(
+   friend matrix<T,Syn> resize(
       const matrix<T,Syn>&,
       unsigned long                 /* length */
    );
 
-   friend matrix<T,Syn> resize<T,Syn>(
+   friend matrix<T,Syn> resize(
       const matrix<T,Syn>&,
       unsigned long,                /* length */
       const T&                      /* element init value (if enlarging) */
@@ -1289,13 +1289,13 @@ public:
     * Resize (2D matrix).
     * Return the resized M x N matrix.
     */
-   friend matrix<T,Syn> resize<T,Syn>(
+   friend matrix<T,Syn> resize(
       const matrix<T,Syn>&,
       unsigned long,                /* M */
       unsigned long                 /* N */
    );
    
-   friend matrix<T,Syn> resize<T,Syn>(
+   friend matrix<T,Syn> resize(
       const matrix<T,Syn>&,
       unsigned long,                /* M */
       unsigned long,                /* N */
@@ -1307,12 +1307,12 @@ public:
     * Return the resized matrix.
     * The dimensionality of the matrix must not change.
     */
-   friend matrix<T,Syn> resize<T,Syn>(
+   friend matrix<T,Syn> resize(
       const matrix<T,Syn>&,
       const array<unsigned long>&   /* dimensions */
    );
    
-   friend matrix<T,Syn> resize<T,Syn>(
+   friend matrix<T,Syn> resize(
       const matrix<T,Syn>&,
       const array<unsigned long>&,  /* dimensions */
       const T&                      /* element init value (if enlarging) */
