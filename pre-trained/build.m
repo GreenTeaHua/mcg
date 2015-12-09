@@ -30,11 +30,12 @@ end
 %% Include the generic paths and files to compile
 include{1} = fullfile(mcg_root, 'src', 'aux_');  % To get matlab_multiarray.hpp
 if (strcmp(computer(),'PCWIN64') || strcmp(computer(),'PCWIN32'))
-    include{2} = 'D:\code\Library\boost\boost_1_55_0';  % Boost libraries (change it if necessary)
+    include{2} = '\\whiteair1\D$\code\Library\boost\boost_1_55_0';  % Boost libraries (change it if necessary)
 else
     include{2} = '/opt/local/include/';  % Boost libraries (change it if necessary)
 end
 include{3} = fullfile(mcg_root, 'src', 'external','piotr_toolbox'); % To build Piotr toolbox
+% 
 
 include_str = '';
 for ii=1:length(include)
@@ -138,7 +139,10 @@ eval(['mex ' fullfile(mcg_root, 'src', 'bsr', 'mex_contour_sides.cpp') ' -outdir
             '   ' fullfile(mcg_root,'src','external','BSR','src','mlearning','clustering','clusterers','abstract','clusterer.cc'),...  
             '   ' fullfile(mcg_root,'src','external','BSR','src','mlearning','clustering','clusterers','abstract','weighted_clusterer.cc'),...  
             '   ' fullfile(mcg_root,'src','external','BSR','src','mlearning','clustering','clusterers','kmeans','basic_clusterer.cc'),...  
+            ' -L' fullfile(mcg_root,'src','external','pthread_win32','lib','x64'),...
+            ' -l' 'pthreadVC2_x64',...
             ]);
+        
 
 %% Clear variables
 clear build_file file1 file2 dep1 dep2 o_file1 o_file2 ii include include_str

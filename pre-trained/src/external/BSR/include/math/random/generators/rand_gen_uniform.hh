@@ -6,10 +6,10 @@
 
 #include "concurrent/threads/synchronization/locks/auto_lock.hh"
 #include "concurrent/threads/synchronization/synchronizables/unsynchronized.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/random/generators/rand_gen.hh"
 #include "math/random/sources/rand_source.hh"
 #include "math/random/sources/rand_source_default.hh"
+#include <memory>
 
 namespace math {
 namespace random {
@@ -19,9 +19,9 @@ namespace generators {
  */
 using concurrent::threads::synchronization::locks::auto_lock;
 using concurrent::threads::synchronization::synchronizables::unsynchronized;
-using lang::pointers::auto_ptr;
 using math::random::sources::rand_source;
 using math::random::sources::rand_source_default;
+using namespace std;
 
 /*
  * Base class containing code common to all rand_gen_uniform<T,Syn> templates.
@@ -77,7 +77,7 @@ public:
    explicit rand_gen_uniform(
       T = T(0),   /* min */
       T = T(1),   /* max */
-      auto_ptr<rand_source> = auto_ptr<rand_source>(new rand_source_default())
+      std::auto_ptr<rand_source> = std::auto_ptr<rand_source>(new rand_source_default())
    );
 
    /*
@@ -86,7 +86,7 @@ public:
     */
    rand_gen_uniform(
       const rand_gen_uniform<T,Syn>&,
-      auto_ptr<rand_source> = auto_ptr<rand_source>(new rand_source_default())
+      std::auto_ptr<rand_source> = std::auto_ptr<rand_source>(new rand_source_default())
    );
 
    /*
@@ -105,7 +105,7 @@ protected:
     */
    T _min;                    /* lower bound of range */
    T _max;                    /* upper bound of range */
-   auto_ptr<rand_source> _r;  /* source of randomness */
+   std::auto_ptr<rand_source> _r;  /* source of randomness */
 };
 
 /***************************************************************************
@@ -121,7 +121,7 @@ template <typename T, typename Syn>
 rand_gen_uniform<T,Syn>::rand_gen_uniform(
    T min,
    T max,
-   auto_ptr<rand_source> r)
+   std::auto_ptr<rand_source> r)
  : Syn(),
    _min(min),
    _max(max),
@@ -135,7 +135,7 @@ rand_gen_uniform<T,Syn>::rand_gen_uniform(
 template <typename T, typename Syn>
 rand_gen_uniform<T,Syn>::rand_gen_uniform(
    const rand_gen_uniform<T,Syn>& gen,
-   auto_ptr<rand_source> r)
+   std::auto_ptr<rand_source> r)
  : Syn(),
    _min(gen._min),
    _max(gen._max),

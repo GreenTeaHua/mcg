@@ -10,10 +10,10 @@
 #include "collections/pointers/auto_collection.hh"
 #include "concurrent/threads/runnable.hh"
 #include "lang/array.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/geometry/point_2D.hh"
 #include "math/geometry/sym_edge.hh"
 #include "math/geometry/triangle_2D.hh"
+#include <memory>
 
 namespace math {
 namespace geometry {
@@ -26,7 +26,6 @@ using collections::list;
 using collections::pointers::auto_collection;
 using concurrent::threads::runnable;
 using lang::array;
-using lang::pointers::auto_ptr;
 
 /*
  * Triangulation of a set of points in the plane.
@@ -58,7 +57,7 @@ public:
     * construct the Delaunay triangulation, where n is the number of points
     * and p is the number of available processors.
     */
-   static auto_ptr<triangulation> delaunay(const collection<point_2D>&);
+   static std::auto_ptr<triangulation> delaunay(const collection<point_2D>&);
 
    /*
     * Constrained Delaunay triangulation (CDT).
@@ -70,7 +69,7 @@ public:
     * The constraints must be consistent, in that no two constraint edges 
     * cross.  Otherwise, an exception (ex_invalid_argument) is throw.
     */
-   static auto_ptr<triangulation> delaunay(
+   static std::auto_ptr<triangulation> delaunay(
       const collection<point_2D>&,  /* points */
       const array<unsigned long>&,  /* constraint edge first endpoint ids */
       const array<unsigned long>&   /* constraint edge second endpoint ids */
@@ -225,32 +224,12 @@ public:
    auto_collection< array<unsigned long>,
       array_list< array<unsigned long> > > graph_dual() const;
    
-protected:
-   /************************************************************************
-    * Triangulation data structures.
-    ************************************************************************/
-  
+
    /*
     * Declare vertex, edge, and triangle types.
     */
    class vrtx;
-   class edge;
    class tri;
-    
-   /*
-    * Vertex.
-    */
-   class vrtx {
-   public:
-      /* constructor */
-      explicit vrtx(unsigned long /* id */, point_2D& /* point */);
-
-      /* data */
-      unsigned long        id;   /* vertex id */
-      point_2D&            p;    /* point at vertex */
-      sym_edge<vrtx,edge>* e;    /* edge out of vertex (if it exists) */
-   };
-
    /*
     * Edge data.
     */
@@ -278,6 +257,25 @@ protected:
       unsigned long id;          /* triangle id */
       sym_edge<vrtx,edge>* e;    /* edge which triangle is left of */
    };
+    
+   /*
+    * Vertex.
+    */
+   class vrtx {
+   public:
+      /* constructor */
+      explicit vrtx(unsigned long /* id */, point_2D& /* point */);
+
+      /* data */
+      unsigned long        id;   /* vertex id */
+      point_2D&            p;    /* point at vertex */
+      sym_edge<vrtx,edge>* e;    /* edge out of vertex (if it exists) */
+   };
+protected:
+   /************************************************************************
+    * Triangulation data structures.
+    ************************************************************************/
+  
       
    /*
     * Vertex, edge, and triangle arrays.

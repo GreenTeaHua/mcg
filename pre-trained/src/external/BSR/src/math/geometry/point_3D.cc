@@ -4,10 +4,10 @@
 #include "io/serialization/serial_input_stream.hh"
 #include "io/serialization/serial_output_stream.hh"
 #include "io/streams/ostream.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/exact.hh"
 #include "math/geometry/point_3D.hh"
 #include "math/math.hh"
+#include <memory>
 
 namespace math {
 namespace geometry {
@@ -18,7 +18,6 @@ using io::serialization::serial_input_stream;
 using io::serialization::serial_output_stream;
 using io::streams::ostream;
 using math::exact;
-using lang::pointers::auto_ptr;
 
 /***************************************************************************
  * Constructors and destructor.
@@ -86,8 +85,8 @@ void point_3D::serialize(serial_output_stream& s) const {
 /*
  * Deserialize.
  */
-auto_ptr<point_3D> point_3D::deserialize(serial_input_stream& s) {
-   auto_ptr<point_3D> p(new point_3D());
+std::auto_ptr<point_3D> point_3D::deserialize(serial_input_stream& s) {
+   std::auto_ptr<point_3D> p(new point_3D());
    s >> p->_x >> p->_y >> p->_z;
    return p;
 }

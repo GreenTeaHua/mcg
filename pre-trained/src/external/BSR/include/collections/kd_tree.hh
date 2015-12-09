@@ -29,7 +29,7 @@
 #include "lang/array.hh"
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 /*
@@ -56,7 +56,7 @@ using functors::kd_treeable_key_distance_functor;
 using functors::kd_tree_key_distance_functors;
 using interfaces::comparable;
 using lang::exceptions::ex_not_found;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Options for finding nearest neighbors in kd-trees.
@@ -224,6 +224,12 @@ public:
       const kd_tree_search_options<V>&   = kd_tree_search_options<V>(),
       const filterable_functor<const T>& = filter_functors<const T>::f_true()
    ) const;
+
+   /*
+    * Declare tree branch and leaf classes.
+    */
+   class tree_branch;
+   class tree_leaf;
    
 protected:
    /*
@@ -232,12 +238,6 @@ protected:
    const kd_treeable_key_distance_functor<T,V>& _f_key_distance;  /* key distance function */
    const distanceable_functor<T,V>&             _f_distance;      /* item distance function */
    const unsigned long                          _n_dims;          /* dimensionality of items */
-
-   /*
-    * Declare tree branch and leaf classes.
-    */
-   class tree_branch;
-   class tree_leaf;
    
    /*
     * Search status.

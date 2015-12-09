@@ -8,7 +8,7 @@
 #include "io/serialization/serial_input_stream.hh"
 #include "io/serialization/serial_output_stream.hh"
 #include "io/streams/ostream.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace math {
 namespace geometry {
@@ -19,7 +19,6 @@ using interfaces::comparable;
 using io::serialization::serial_input_stream;
 using io::serialization::serial_output_stream;
 using io::streams::ostream;
-using lang::pointers::auto_ptr;
 
 /*
  * Point 3D.
@@ -71,7 +70,7 @@ public:
    /*
     * Deserialize.
     */
-   static auto_ptr<point_3D> deserialize(serial_input_stream&);
+   static std::auto_ptr<point_3D> deserialize(serial_input_stream&);
 
    /*
     * Formatted output to stream.

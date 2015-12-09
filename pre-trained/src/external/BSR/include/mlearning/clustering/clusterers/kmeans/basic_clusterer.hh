@@ -13,10 +13,10 @@
 #include "collections/pointers/auto_collection.hh"
 #include "lang/array.hh"
 #include "lang/exceptions/ex_invalid_argument.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/random/util/randperm.hh"
 #include "mlearning/clustering/clusterers/abstract/metric_clusterer.hh"
 #include "mlearning/clustering/metrics/metric.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -31,9 +31,9 @@ using collections::list;
 using collections::pointers::auto_collection;
 using lang::array;
 using lang::exceptions::ex_invalid_argument;
-using lang::pointers::auto_ptr;
 using mlearning::clustering::clusterers::abstract::metric_clusterer;
 using mlearning::clustering::metrics::metric;
+using namespace std;
 
 /*
  * Base class containing code common to all K-means clusterers.

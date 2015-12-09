@@ -17,9 +17,9 @@
 #include "functors/comparable_functors.hh"
 #include "lang/array.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "mlearning/clustering/clusterers/abstract/clusterer.hh"
 #include "mlearning/clustering/clusterers/graph/basic_clusterer.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -36,8 +36,8 @@ using functors::comparable_functor;
 using functors::compare_functors;
 using lang::array;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 using mlearning::clustering::clusterers::abstract::clusterer;
+using namespace std;
 
 /*
  * Clusterer on undirected graphs that produces an agglomeration tree.
@@ -124,7 +124,7 @@ public:
     * Optionally specify the comparison functor for prioritizing edges.
     */
    explicit tree_clusterer(
-      const agglomerator&,
+       const agglomerator&,
       const comparable_functor<E>& = compare_functors<E>::f_compare()
    );
    
@@ -177,60 +177,59 @@ public:
       const collection<T>&,                        /* items to cluster */
       const collection< array<unsigned long> >&,   /* edges in graph */
       auto_collection< tree, array_list<tree> >&   /* clustering result */
-   ) const;
+      ) const;
 
-protected:
    /*
-    * Agglomerator which translates a tree agglomerator into one 
-    * that can be used with the basic graph clustering algorithm.
-    */
-   class basic_agglomerator
-    : public basic_clusterer<tree,E>::agglomerator {
+   * Agglomerator which translates a tree agglomerator into one
+   * that can be used with the basic graph clustering algorithm.
+   */
+   class basic_agglomerator : public basic_clusterer<tree, E>::agglomerator {
    public:
-      /*
+       /*
        * Constructor.
        */
-      explicit basic_agglomerator(const agglomerator& agglm)
-       : _agglm(agglm) { }
+       explicit basic_agglomerator(typename const tree_clusterer<T,E>::agglomerator& agglm)
+           : _agglm(agglm) { }
 
-      /*
+       /*
        * Copy constructor.
        */
-      basic_agglomerator(const basic_agglomerator& agglm)
-       : _agglm(agglm._agglm) { }
-   
-      /*
+       basic_agglomerator(const basic_agglomerator& agglm)
+           : _agglm(agglm._agglm) { }
+
+       /*
        * Return whether the vertices at the end of the edge can be merged.
        * Agglomeration stops when the highest priority edge is unmergeable.
        */
-      bool is_mergeable(const E& e) const {
-         return _agglm.is_mergeable(e);
-      }
-      
-      /*
+       bool is_mergeable(const E& e) const {
+           return _agglm.is_mergeable(e);
+       }
+
+       /*
        * Merge two vertices and return the merged vertex.
        */
-      auto_ptr<tree> merge(const tree& t0, const tree& t1) const {
-         /* compute data for merged node */
-         auto_ptr<T> data = _agglm.merge(t0, t1);
-         /* construct tree that owns t0, t1 subtrees */
-         auto_ptr<tree> t0_copy(new tree(t0));
-         auto_ptr<tree> t1_copy(new tree(t1));
-         auto_ptr<tree> t(new tree(data, t0_copy, t1_copy));
-         return t;
-      }
+       auto_ptr<tree> merge(const tree& t0, const tree& t1) const {
+           /* compute data for merged node */
+           auto_ptr<T> data = _agglm.merge(t0, t1);
+           /* construct tree that owns t0, t1 subtrees */
+           auto_ptr<tree> t0_copy(new tree(t0));
+           auto_ptr<tree> t1_copy(new tree(t1));
+           auto_ptr<tree> t(new tree(data, t0_copy, t1_copy));
+           return t;
+       }
 
-      /*
+       /*
        * Compute the edge between the two vertices in the graph.
        */
-      auto_ptr<E> update(const tree& t0, const tree& t1) const {
-         return _agglm.update(t0, t1);
-      }
+       auto_ptr<E> update(const tree& t0, const tree& t1) const {
+           return _agglm.update(t0, t1);
+       }
 
    protected:
-      const agglomerator& _agglm;   /* agglomerator on trees */
+       typename const tree_clusterer<T,E>::agglomerator& _agglm;   /* agglomerator on trees */
    };
 
+protected:
    /*
     * Helper function.
     * Return a collection of single element trees given a collection of 
@@ -257,7 +256,7 @@ protected:
  */
 template <typename T, typename E>
 tree_clusterer<T,E>::tree_clusterer(
-   const agglomerator&          agglm,
+    const agglomerator &          agglm,
    const comparable_functor<E>& f)
  : _agglm(agglm),
    _f(f),

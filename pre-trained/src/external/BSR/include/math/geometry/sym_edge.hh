@@ -13,8 +13,8 @@
 #define MATH__GEOMETRY__SYM_EDGE_HH
 
 #include "lang/exceptions/ex_not_found.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/geometry/point_2D.hh"
+#include <memory>
 
 namespace math {
 namespace geometry {
@@ -22,7 +22,7 @@ namespace geometry {
  * Imports.
  */
 using lang::exceptions::ex_not_found;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Sym-edge.

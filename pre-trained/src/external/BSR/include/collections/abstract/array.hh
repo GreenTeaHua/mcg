@@ -8,9 +8,9 @@
 #include "functors/comparable_functors.hh"
 #include "lang/array.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/random/generators/rand_gen.hh"
 #include "math/random/generators/rand_gen_uniform.hh"
+#include <memory>
 
 namespace collections {
 namespace abstract {
@@ -20,7 +20,6 @@ namespace abstract {
 using functors::comparable_functor;
 using functors::compare_functors;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 using math::random::generators::rand_gen;
 using math::random::generators::rand_gen_uniform;
 
@@ -73,8 +72,8 @@ public:
     * Collection interface for adding element(s) to array.
     * Return a reference to the array.
     */
-   virtual array<T>& add(T&) = 0;
-   virtual array<T>& add(const collection<T>&) = 0;
+   //virtual array<T>& add(T&) = 0;
+   //virtual array<T>& add_collection(const collection<T>&) = 0;
     
    /*
     * Reverse array.
@@ -90,8 +89,8 @@ public:
    /*
     * Return iterators over elements.
     */
-   virtual auto_ptr< iterator<T> > iter_create() const = 0;
-   virtual auto_ptr< iterator<T> > iter_reverse_create() const = 0;
+   virtual std::auto_ptr< iterator<T> > iter_create() const = 0;
+   virtual std::auto_ptr< iterator<T> > iter_reverse_create() const = 0;
 
    /*
     * Randomly permute the elements of the array.

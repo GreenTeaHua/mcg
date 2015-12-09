@@ -32,7 +32,7 @@
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 /*
@@ -52,7 +52,7 @@ using functors::key_compare_functors;
 using functors::key_split_functors;
 using lang::exceptions::ex_not_found;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare classes for iterators over key trees.

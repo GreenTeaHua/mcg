@@ -9,8 +9,8 @@
 #include "interfaces/comparable.hh"
 #include "io/serialization/serial_input_stream.hh"
 #include "io/serialization/serial_output_stream.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "lang/types/type_info.hh"
+#include <memory>
 
 namespace lang {
 namespace types {
@@ -20,7 +20,7 @@ namespace types {
 using interfaces::comparable;
 using io::serialization::serial_input_stream;
 using io::serialization::serial_output_stream;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare type identifier implementation class.

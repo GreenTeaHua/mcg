@@ -9,7 +9,7 @@
 #include "concurrent/threads/thread.hh"
 #include "lang/exceptions/throwable.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace concurrent {
 namespace threads {
@@ -21,7 +21,7 @@ using collections::list;
 using collections::pointers::auto_collection;
 using lang::exceptions::throwable;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Default constructor.

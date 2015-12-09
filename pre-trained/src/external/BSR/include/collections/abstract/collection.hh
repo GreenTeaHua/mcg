@@ -9,7 +9,7 @@
 #include "functors/iterable_functors.hh"
 #include "functors/mappable_functors.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 namespace abstract {
@@ -21,7 +21,7 @@ using functors::foldable_functor;
 using functors::iterable_functor;
 using functors::mappable_functor;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Abstract base class for collections.

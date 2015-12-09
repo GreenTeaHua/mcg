@@ -24,25 +24,25 @@
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/math.hh"
 #include "math/random/generators/rand_gen.hh"
+#include <memory>
 
 /* 
  * Enable/disable bounds checking for array lists.
  */
-#ifdef CONFIG__SAFETY__CHECK_BOUNDS
-   #define COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS (true)
-#else
-   #define COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS (false)
-#endif
+//#if CONFIG__SAFETY__CHECK_BOUNDS
+   #define COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS 1
+//#else
+ //  #define COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS 0
+//#endif
 
 namespace collections {
 /*
  * Imports.
  */
-using collections::abstract::collection;
-using collections::pointers::auto_collection;
+//using collections::abstract::collection;
+//using collections::pointers::auto_collection;
 using concurrent::threads::synchronization::locks::auto_read_lock;
 using concurrent::threads::synchronization::locks::auto_write_lock;
 using concurrent::threads::synchronization::synchronizables::unsynchronized;
@@ -56,8 +56,8 @@ using lang::exceptions::ex_index_out_of_bounds;
 using lang::exceptions::ex_invalid_argument;
 using lang::exceptions::ex_not_found;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 using math::random::generators::rand_gen;
+using namespace std;
 
 /*
  * Declare classes for iterators over array lists.
@@ -180,7 +180,7 @@ public:
     * Return a reference to the array list.
     */
    array_list<T,Syn>& add(T&);
-   array_list<T,Syn>& add(const collection<T>&);
+   array_list<T, Syn>& add(const collection<T>&);
     
    /*
     * Addition of element(s) to head of array list.
@@ -240,8 +240,8 @@ public:
    /*
     * Return iterators over elements.
     */
-   auto_ptr< iterator<T> > iter_create() const;
-   auto_ptr< iterator<T> > iter_reverse_create() const;
+   std::auto_ptr< iterator<T> > iter_create() const;
+   std::auto_ptr< iterator<T> > iter_reverse_create() const;
 
    /*
     * Randomly permute the elements of the array list.
@@ -358,7 +358,7 @@ protected:
    unsigned long _size;                            /* number of elements in the array */
    unsigned long _head_space;                      /* extra space allocated at head of array */
    unsigned long _tail_space;                      /* extra space allocated at tail of array */
-   lang::array< auto_ptr<array_list_node> > _data; /* array elements */
+   lang::array< std::auto_ptr<array_list_node> > _data; /* array elements */
 
    /*
     * Parameters for managing extra space.
@@ -381,7 +381,7 @@ protected:
     * Comparison functor on pointers to list nodes.
     */
    class ptr_node_compare_functor
-    : public comparable_functor< auto_ptr<array_list_node> > {
+    : public comparable_functor< std::auto_ptr<array_list_node> > {
    public:
       /*
        * Constructor.
@@ -399,8 +399,8 @@ protected:
        * Comparison function.
        */
       int operator()(
-         const auto_ptr<array_list_node>& p0,
-         const auto_ptr<array_list_node>& p1) const
+         const std::auto_ptr<array_list_node>& p0,
+         const std::auto_ptr<array_list_node>& p1) const
       { return _f(p0->t, p1->t); }
       
    protected:
@@ -741,7 +741,7 @@ auto_collection< T, array_list<T,Syn> > array_list<T,Syn>::deserialize(
    a->_data.resize(a->_head_space + a->_size + a->_tail_space);
    for (unsigned long n = a->_head_space; n < (a->_size + a->_head_space); n++)
    {
-      auto_ptr<T> t = slzr.deserialize(s);
+      std::auto_ptr<T> t = slzr.deserialize(s);
       a->_data[n].reset(new array_list_node(*t));
       t.release();
    }
@@ -754,7 +754,7 @@ auto_collection< T, array_list<T,Syn> > array_list<T,Syn>::deserialize(
 template <typename T, typename Syn>
 T& array_list<T,Syn>::operator[](unsigned long n) const {
    auto_read_lock<const Syn> rlock(*this);
-   #ifdef COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
+   #if COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
       /* perform bounds check */
       if (n >= _size)
          throw ex_index_out_of_bounds(
@@ -774,7 +774,7 @@ T& array_list<T,Syn>::operator[](unsigned long n) const {
 template <typename T, typename Syn>
 T& array_list<T,Syn>::replace(unsigned long n, T& t) {
    auto_write_lock<const Syn> wlock(*this);
-   #ifdef COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
+   #if COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
       /* perform bounds check */
       if (n >= _size)
          throw ex_index_out_of_bounds(
@@ -810,11 +810,11 @@ void array_list<T,Syn>::subarray(
    unsigned long end,
    collection<T>& c) const 
 {
-   list<T> l;  /* list of elements in range */
+    collections::list<T> l;  /* list of elements in range */
    {
       /* lock array list and obtain elements in range */
       auto_read_lock<const Syn> rlock(*this);
-      #ifdef COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
+      #if COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
          /* check array bounds */
          if (start >= _size)
             throw ex_index_out_of_bounds(
@@ -848,7 +848,7 @@ void array_list<T,Syn>::subarray(
    const lang::array<unsigned long>& index_arr, 
    collection<T>& c) const 
 {
-   list<T> l;  /* list of elements at given indices */
+    collections::list<T> l;  /* list of elements at given indices */
    {
       /* lock array list and obtain elements in range */
       auto_read_lock<const Syn> rlock(*this);
@@ -856,7 +856,7 @@ void array_list<T,Syn>::subarray(
       for (unsigned long n = 0; n < n_indices; n++) {
          /* get index */
          unsigned long index = index_arr[n];
-         #ifdef COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
+         #if COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
             /* check index bounds */
             if (index >= _size)
                throw ex_index_out_of_bounds(
@@ -892,7 +892,7 @@ T& array_list<T,Syn>::head() const {
  */
 template <typename T, typename Syn>
 void array_list<T,Syn>::head(unsigned long n, collection<T>& c) const {
-   list<T> l;
+    collections::list<T> l;
    {
       /* lock array list and obtain first n elements */
       auto_read_lock<const Syn> rlock(*this);
@@ -927,7 +927,7 @@ T& array_list<T,Syn>::tail() const {
  */
 template <typename T, typename Syn>
 void array_list<T,Syn>::tail(unsigned long n, collection<T>& c) const {
-   list<T> l;
+    collections::list<T> l;
    {
       /* lock array list and obtain last n elements */
       auto_read_lock<const Syn> rlock(*this);
@@ -955,7 +955,7 @@ array_list<T,Syn>& array_list<T,Syn>::add(T& t) {
  * Return a reference to the array list.
  */
 template <typename T, typename Syn>
-array_list<T,Syn>& array_list<T,Syn>::add(const collection<T>& c) {
+array_list<T, Syn>& array_list<T, Syn>::add(const collection<T>& c) {
    return this->append(c);
 }
 
@@ -977,11 +977,11 @@ array_list<T,Syn>& array_list<T,Syn>::prepend(T& t) {
  */
 template <typename T, typename Syn>
 array_list<T,Syn>& array_list<T,Syn>::prepend(const collection<T>& c) {
-   list<T> lst(c);
+   collections::list<T> lst(c);
    auto_write_lock<const Syn> wlock(*this);
    this->resize_expand_head(lst.size());
    unsigned long n = 0;
-   for (typename list<T>::iterator_t i(lst); i.has_next(); n++)
+   for (typename collections::list<T>::iterator_t i(lst); i.has_next(); n++)
       _data[_head_space + n].reset(new array_list_node(i.next()));
    return *this;
 }
@@ -1004,12 +1004,12 @@ array_list<T,Syn>& array_list<T,Syn>::append(T& t) {
  */
 template <typename T, typename Syn>
 array_list<T,Syn>& array_list<T,Syn>::append(const collection<T>& c) {
-   list<T> lst(c);
+    collections::list<T> lst(c);
    auto_write_lock<const Syn> wlock(*this);
    unsigned long l_size = lst.size();
    this->resize_expand_tail(l_size);
    unsigned long n = (_size - l_size);
-   for (typename list<T>::iterator_t i(lst); i.has_next(); n++)
+   for (typename collections::list<T>::iterator_t i(lst); i.has_next(); n++)
       _data[_head_space + n].reset(new array_list_node(i.next()));
    return *this;
 }
@@ -1037,7 +1037,7 @@ T& array_list<T,Syn>::remove_head() {
  */
 template <typename T, typename Syn>
 void array_list<T,Syn>::remove_head(unsigned long n, collection<T>& c) {
-   list<T> l;
+    collections::list<T> l;
    {
       /* lock array list, obtain and remove first n elements */
       auto_write_lock<const Syn> wlock(*this);
@@ -1075,7 +1075,7 @@ T& array_list<T,Syn>::remove_tail() {
  */
 template <typename T, typename Syn>
 void array_list<T,Syn>::remove_tail(unsigned long n, collection<T>& c) {
-   list<T> l;
+    collections::list<T> l;
    {
       /* lock array list, obtain and remove last n elements */
       auto_write_lock<const Syn> wlock(*this);
@@ -1117,7 +1117,7 @@ array_list<T,Syn>& array_list<T,Syn>::reverse() {
         start++)
    {
       end--;
-      auto_ptr<array_list_node> temp = _data[start];
+      std::auto_ptr<array_list_node> temp = _data[start];
       _data[start] = _data[end];
       _data[end]   = temp;
    }
@@ -1165,8 +1165,8 @@ double array_list<T,Syn>::expand_factor(double e) {
  * Return iterator over elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<T> > array_list<T,Syn>::iter_create() const {
-   return auto_ptr< iterator<T> >(
+std::auto_ptr< iterator<T> > array_list<T,Syn>::iter_create() const {
+   return std::auto_ptr< iterator<T> >(
       new array_list_iterator<T,Syn>(*this)
    );
 }
@@ -1175,8 +1175,8 @@ auto_ptr< iterator<T> > array_list<T,Syn>::iter_create() const {
  * Return reverse iterator over elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<T> > array_list<T,Syn>::iter_reverse_create() const {
-   return auto_ptr< iterator<T> >(
+std::auto_ptr< iterator<T> > array_list<T,Syn>::iter_reverse_create() const {
+   return std::auto_ptr< iterator<T> >(
       new array_list_iterator_reverse<T,Syn>(*this)
    );
 }
@@ -1213,7 +1213,7 @@ lang::array<unsigned long> array_list<T,Syn>::randperm_subarray(
    rand_gen<>& r)
 {
    auto_write_lock<const Syn> wlock(*this);
-   #ifdef COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
+   #if COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
       /* check array bounds */
       if (start >= _size)
          throw ex_index_out_of_bounds(
@@ -1287,7 +1287,7 @@ void array_list<T,Syn>::sort_subarray(
 {
    const ptr_node_compare_functor f_compare(f);
    auto_write_lock<const Syn> wlock(*this);
-   #ifdef COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
+   #if COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
       /* check array bounds */
       if (start >= _size)
          throw ex_index_out_of_bounds(
@@ -1321,7 +1321,7 @@ lang::array<unsigned long> array_list<T,Syn>::sort_subarray_idx(
 {
    const ptr_node_compare_functor f_compare(f);
    auto_write_lock<const Syn> wlock(*this);
-   #ifdef COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
+   #if COLLECTIONS__ARRAY_LIST__CHECK_BOUNDS
       /* check array bounds */
       if (start >= _size)
          throw ex_index_out_of_bounds(
@@ -1421,7 +1421,7 @@ void array_list<T,Syn>::resize(
    unsigned long tail_space)
 {
    /* copy current array elements */
-   lang::array< auto_ptr<array_list_node> > data(_size);
+   lang::array< std::auto_ptr<array_list_node> > data(_size);
    for (unsigned long n = 0; n < _size; n++)
       data[n] = _data[_head_space + n];
    /* resize current array */

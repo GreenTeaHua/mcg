@@ -25,17 +25,19 @@
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/random/generators/rand_gen.hh"
 #include "math/random/generators/rand_gen_uniform.hh"
+#include <memory>
 
 /* 
  * Enable/disable bounds checking for arrays.
  */
-#ifdef CONFIG__SAFETY__CHECK_BOUNDS
-   #define LANG__ARRAY__CHECK_BOUNDS (true)
+#define CONFIG__SAFETY__CHECK_BOUNDS 1
+
+#if CONFIG__SAFETY__CHECK_BOUNDS
+   #define LANG__ARRAY__CHECK_BOUNDS 1
 #else
-   #define LANG__ARRAY__CHECK_BOUNDS (false)
+   #define LANG__ARRAY__CHECK_BOUNDS 0
 #endif
 
 namespace lang {
@@ -63,9 +65,9 @@ using lang::exceptions::ex_index_out_of_bounds;
 using lang::exceptions::ex_invalid_argument;
 using lang::exceptions::ex_not_found;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 using math::random::generators::rand_gen;
 using math::random::generators::rand_gen_uniform;
+using namespace std;
 
 /*
  * Declare class for iterators over arrays.
@@ -134,7 +136,7 @@ public:
    /*
     * Deserialize.
     */
-   static auto_ptr< array<T,Syn> > deserialize(
+   static std::auto_ptr< array<T,Syn> > deserialize(
       serial_input_stream&,
       const serializer<T>& = serializers<T>::s_default()
    );
@@ -188,10 +190,10 @@ public:
    /*
     * Return iterator over elements.
     */
-   auto_ptr< iterator<T> >       iter_create();
-   auto_ptr< iterator<const T> > iter_create() const;
-   auto_ptr< iterator<T> >       iter_reverse_create();
-   auto_ptr< iterator<const T> > iter_reverse_create() const;
+   std::auto_ptr< iterator<T> >       iter_create();
+   std::auto_ptr< iterator<const T> > iter_create() const;
+   std::auto_ptr< iterator<T> >       iter_reverse_create();
+   std::auto_ptr< iterator<const T> > iter_reverse_create() const;
 
    /*
     * Iterate a functor over the array.
@@ -940,14 +942,14 @@ void array<T,Syn>::serialize(
  * Deserialize.
  */
 template <typename T, typename Syn>
-auto_ptr< array<T,Syn> > array<T,Syn>::deserialize(
+std::auto_ptr< array<T,Syn> > array<T,Syn>::deserialize(
    serial_input_stream& s, const serializer<T>& slzr)
 {
    unsigned long size = 0;
    s >> size;
-   auto_ptr< array<T,Syn> > a(new array<T,Syn>(size));
+   std::auto_ptr< array<T,Syn> > a(new array<T,Syn>(size));
    for (unsigned long n = 0; n < size; n++) {
-      auto_ptr<T> t = slzr.deserialize(s);
+      std::auto_ptr<T> t = slzr.deserialize(s);
       a->_data[n] = *t;
    }
    return a;
@@ -960,7 +962,7 @@ auto_ptr< array<T,Syn> > array<T,Syn>::deserialize(
 template <typename T, typename Syn>
 inline T& array<T,Syn>::operator[](unsigned long n) {
    auto_read_lock<const Syn> rlock(*this);
-   #ifdef LANG__ARRAY__CHECK_BOUNDS
+   #if LANG__ARRAY__CHECK_BOUNDS == 1
       /* perform bounds check */
       if (n >= _size)
          throw ex_index_out_of_bounds(
@@ -988,7 +990,7 @@ inline T& array<T,Syn>::operator()(unsigned long n) {
 template <typename T, typename Syn>
 inline const T& array<T,Syn>::operator[](unsigned long n) const {
    auto_read_lock<const Syn> rlock(*this);
-   #ifdef LANG__ARRAY__CHECK_BOUNDS
+   #if LANG__ARRAY__CHECK_BOUNDS
       /* perform bounds check */
       if (n >= _size)
          throw ex_index_out_of_bounds(
@@ -1030,7 +1032,7 @@ array<T,Syn> array<T,Syn>::subarray(
    unsigned long end) const
 {
    auto_read_lock<const Syn> rlock(*this);
-   #ifdef LANG__ARRAY__CHECK_BOUNDS
+   #if LANG__ARRAY__CHECK_BOUNDS
       /* check array bounds */
       if (start >= _size)
          throw ex_index_out_of_bounds(
@@ -1073,7 +1075,7 @@ array<T,Syn> array<T,Syn>::subarray(
    for (unsigned long n = 0; n < n_indices; n++) {
       /* get index */
       unsigned long index = indices[n];
-      #ifdef LANG__ARRAY__CHECK_BOUNDS
+      #if LANG__ARRAY__CHECK_BOUNDS
          /* check index bounds */
          if (index >= _size)
             throw ex_index_out_of_bounds(
@@ -1144,8 +1146,8 @@ array<T,Syn>& array<T,Syn>::resize(unsigned long size) {
  * Return iterator over elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<T> > array<T,Syn>::iter_create() {
-   return auto_ptr< iterator<T> >(
+std::auto_ptr< iterator<T> > array<T,Syn>::iter_create() {
+   return std::auto_ptr< iterator<T> >(
       new array_iterator<T,Syn>(*this)
    );
 }
@@ -1154,8 +1156,8 @@ auto_ptr< iterator<T> > array<T,Syn>::iter_create() {
  * Return iterator over const elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<const T> > array<T,Syn>::iter_create() const {
-   return auto_ptr< iterator<const T> >(
+std::auto_ptr< iterator<const T> > array<T,Syn>::iter_create() const {
+   return std::auto_ptr< iterator<const T> >(
       new array_iterator<const T,Syn>(*this)
    );
 }
@@ -1164,8 +1166,8 @@ auto_ptr< iterator<const T> > array<T,Syn>::iter_create() const {
  * Return reverse iterator over elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<T> > array<T,Syn>::iter_reverse_create() {
-   return auto_ptr< iterator<T> >(
+std::auto_ptr< iterator<T> > array<T,Syn>::iter_reverse_create() {
+   return std::auto_ptr< iterator<T> >(
       new array_iterator_reverse<T,Syn>(*this)
    );
 }
@@ -1174,8 +1176,8 @@ auto_ptr< iterator<T> > array<T,Syn>::iter_reverse_create() {
  * Return reverse iterator over const elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<const T> > array<T,Syn>::iter_reverse_create() const {
-   return auto_ptr< iterator<const T> >(
+std::auto_ptr< iterator<const T> > array<T,Syn>::iter_reverse_create() const {
+   return std::auto_ptr< iterator<const T> >(
       new array_iterator_reverse<const T,Syn>(*this)
    );
 }
@@ -1418,7 +1420,7 @@ array<unsigned long> array<T,Syn>::randperm_subarray(
    rand_gen<>& r)
 {
    auto_write_lock<const Syn> wlock(*this);
-   #ifdef LANG__ARRAY__CHECK_BOUNDS
+   #if LANG__ARRAY__CHECK_BOUNDS
       /* check array bounds */
       if (start >= _size)
          throw ex_index_out_of_bounds(
@@ -1494,7 +1496,7 @@ void array<T,Syn>::sort_subarray(
    const comparable_functor<T>& f)
 {
    auto_write_lock<const Syn> wlock(*this);
-   #ifdef LANG__ARRAY__CHECK_BOUNDS
+   #if LANG__ARRAY__CHECK_BOUNDS
       /* check array bounds */
       if (start >= _size)
          throw ex_index_out_of_bounds(
@@ -1524,7 +1526,7 @@ array<unsigned long> array<T,Syn>::sort_subarray_idx(
    const comparable_functor<T>& f) 
 {
    auto_write_lock<const Syn> wlock(*this);
-   #ifdef LANG__ARRAY__CHECK_BOUNDS
+   #if LANG__ARRAY__CHECK_BOUNDS
       /* check array bounds */
       if (start >= _size)
          throw ex_index_out_of_bounds(

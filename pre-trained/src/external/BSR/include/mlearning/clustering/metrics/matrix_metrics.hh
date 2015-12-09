@@ -8,11 +8,11 @@
 #include "collections/array_list.hh"
 #include "lang/array.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/matrices/functors/matrix_distance_functors.hh"
 #include "math/matrices/matrix.hh"
 #include "mlearning/clustering/metrics/metric.hh"
 #include "mlearning/clustering/metrics/scalar_metrics.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -24,11 +24,11 @@ using collections::abstract::collection;
 using collections::array_list;
 using lang::array;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 using math::matrices::functors::matrix_distance_functors;
 using math::matrices::functors::matrix_L1_distance;
 using math::matrices::functors::matrix_L2_distance;
 using math::matrices::matrix;
+using namespace std;
 
 /*
  * Clustering functions for the L1 distance between matrices.

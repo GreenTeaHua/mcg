@@ -10,7 +10,6 @@
 #include "collections/pointers/auto_collection.hh"
 #include "functors/distanceable_functors.hh"
 #include "lang/array.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/geometry/point_2D.hh"
 #include "math/geometry/triangulation.hh"
 #include "math/math.hh"
@@ -18,6 +17,7 @@
 #include "math/matrices/cmatrix.hh"
 #include "math/matrices/functors/matrix_distance_functors.hh"
 #include "mlearning/clustering/clusterers/abstract/centroid_clusterer.hh"
+#include <memory>
 
 namespace math {
 namespace libraries {
@@ -30,13 +30,13 @@ using collections::list;
 using collections::pointers::auto_collection;
 using functors::distanceable_functor;
 using lang::array;
-using lang::pointers::auto_ptr;
 using math::geometry::point_2D;
 using math::geometry::triangulation;
 using math::matrices::matrix;
 using math::matrices::cmatrix;
 using math::matrices::functors::matrix_distance_functors;
 using mlearning::clustering::clusterers::abstract::centroid_clusterer;
+using namespace std;
 
 /*
  * Image processing functions.
@@ -1533,6 +1533,23 @@ public:
        * Enforce the global criteria that the line segments between contour
        * endpoints intersect only at contour vertices.
        */
+
+      /* create comparison functor for sorting edges by vertex id */
+      class edge_compare : public functors::comparable_functor<contour_edge> {
+      public:
+          int operator()(const contour_edge& e0, const contour_edge& e1) const {
+              bool v0_cmp = (e0.vertex_start->id < e0.vertex_end->id);
+              bool v1_cmp = (e1.vertex_start->id < e1.vertex_end->id);
+              unsigned long min0 = v0_cmp ? e0.vertex_start->id : e0.vertex_end->id;
+              unsigned long max0 = v0_cmp ? e0.vertex_end->id : e0.vertex_start->id;
+              unsigned long min1 = v1_cmp ? e1.vertex_start->id : e1.vertex_end->id;
+              unsigned long max1 = v1_cmp ? e1.vertex_end->id : e1.vertex_start->id;
+              int cmp_min = (min0 < min1) ? -1 : ((min0 > min1) ? 1 : 0);
+              int cmp_max = (max0 < max1) ? -1 : ((max0 > max1) ? 1 : 0);
+              return ((cmp_min == 0) ? cmp_max : cmp_min);
+          }
+      };
+
       void subdivide_global();
 
       /*********************************************************************

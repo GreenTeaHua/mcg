@@ -24,7 +24,7 @@
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 /*
@@ -40,7 +40,7 @@ using functors::comparable_functor;
 using functors::compare_functors;
 using lang::exceptions::ex_not_found;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare classes for iterators over splay sets.

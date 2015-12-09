@@ -8,8 +8,8 @@
 #include "collections/array_list.hh"
 #include "lang/array.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "mlearning/clustering/metrics/metric.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -21,7 +21,7 @@ using collections::abstract::collection;
 using collections::array_list;
 using lang::array;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Clustering functions for the L1 distance between scalars.

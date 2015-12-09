@@ -4,11 +4,11 @@
 #include "io/serialization/serial_input_stream.hh"
 #include "io/serialization/serial_output_stream.hh"
 #include "io/streams/ostream.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/exact.hh"
 #include "math/geometry/point_2D.hh"
 #include "math/geometry/triangle_2D.hh"
 #include "math/math.hh"
+#include <memory>
 
 namespace math {
 namespace geometry {
@@ -19,7 +19,6 @@ using io::serialization::serial_input_stream;
 using io::serialization::serial_output_stream;
 using io::streams::ostream;
 using math::exact;
-using lang::pointers::auto_ptr;
 
 /***************************************************************************
  * Constructors and destructor.
@@ -80,8 +79,8 @@ void point_2D::serialize(serial_output_stream& s) const {
 /*
  * Deserialize.
  */
-auto_ptr<point_2D> point_2D::deserialize(serial_input_stream& s) {
-   auto_ptr<point_2D> p(new point_2D());
+std::auto_ptr<point_2D> point_2D::deserialize(serial_input_stream& s) {
+   std::auto_ptr<point_2D> p(new point_2D());
    s >> p->_x >> p->_y;
    return p;
 }

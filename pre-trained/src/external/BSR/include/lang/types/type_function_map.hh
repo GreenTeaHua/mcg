@@ -6,16 +6,16 @@
 #ifndef LANG__TYPES__TYPE_FUNCTION_MAP_HH
 #define LANG__TYPES__TYPE_FUNCTION_MAP_HH
 
-#include "lang/pointers/auto_ptr.hh"
 #include "lang/types/type_identifier.hh"
 #include "lang/types/type_info.hh"
+#include <memory>
 
 namespace lang {
 namespace types {
 /*
  * Imports.
  */
-using lang::pointers::auto_ptr;
+    using namespace std;
 
 /*
  * Declare private implementation class.

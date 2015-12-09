@@ -14,7 +14,7 @@
 #include "concurrent/threads/synchronization/synchronizables/unsynchronized.hh"
 #include "functors/comparable_functors.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 /*
  * Include the default set implementation.
@@ -30,7 +30,7 @@ using concurrent::threads::synchronization::synchronizables::unsynchronized;
 using functors::comparable_functor;
 using functors::compare_functors;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare classes for iterators over sets.
@@ -83,7 +83,7 @@ public:
    /*
     * Destructor.
     */
-   virtual ~set();
+   ~set();
 
    /*
     * Add element(s) to the set.

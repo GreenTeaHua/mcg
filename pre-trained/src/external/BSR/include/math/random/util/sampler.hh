@@ -13,8 +13,8 @@
 #include "concurrent/threads/runnable.hh"
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/random/generators/rand_gen_uniform.hh"
+#include <memory>
 
 namespace math {
 namespace random {
@@ -30,8 +30,8 @@ using concurrent::threads::synchronization::synchronizables::unsynchronized;
 using concurrent::threads::child_thread;
 using concurrent::threads::runnable;
 using lang::exceptions::ex_not_found;
-using lang::pointers::auto_ptr;
 using math::random::generators::rand_gen_uniform;
+using namespace std;
 
 /*
  * Sampler.

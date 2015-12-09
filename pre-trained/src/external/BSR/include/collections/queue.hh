@@ -18,7 +18,7 @@
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 /*
@@ -34,7 +34,7 @@ using functors::comparable_functor;
 using functors::compare_functors;
 using lang::exceptions::ex_not_found;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare class for iterator over queues.
@@ -126,40 +126,41 @@ public:
     * Return iterator over elements.
     */
    auto_ptr< iterator<T> > iter_create() const;
- 
+
+   /*
+   * Declare node class.
+   */
+   class queue_node;
+
+   /*
+   * Item in the heap.
+   */
+   class queue_item {
+   public:
+       /*
+       * Constructors.
+       */
+       explicit queue_item(T&);
+       explicit queue_item(const queue_item&);
+
+       /*
+       * Destructor.
+       */
+       ~queue_item();
+
+       /*
+       * Item data.
+       */
+       T& t;                /* reference to item */
+       queue_node* q_node;  /* node containing queue_item */
+   };
+
 protected:
    /************************************************************************
     * Queue data structures.
     ************************************************************************/
 
-   /*
-    * Declare node class.
-    */
-   class queue_node;
    
-   /*
-    * Item in the heap.
-    */
-   class queue_item {
-   public:
-      /*
-       * Constructors.
-       */
-      explicit queue_item(T&);
-      explicit queue_item(const queue_item&);
-
-      /*
-       * Destructor.
-       */
-      ~queue_item();
-
-      /*
-       * Item data.
-       */
-      T& t;                /* reference to item */
-      queue_node* q_node;  /* node containing queue_item */
-   };
-  
    /* 
     * Node in the heap.
     */

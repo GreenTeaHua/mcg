@@ -21,7 +21,7 @@
 #include "io/streams/ostream.hh"
 #include "lang/array.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 #include <cstring>
 
@@ -41,7 +41,7 @@ using interfaces::comparable;
 using io::serialization::serial_input_stream;
 using io::serialization::serial_output_stream;
 using io::streams::ostream;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare prototypes for string template friend functions.
@@ -210,34 +210,34 @@ public:
    /*
     * Formatted output to stream.
     */
-   friend ostream& operator<< <Syn>(ostream&, const string<Syn>&);
+   friend ostream& operator<< (ostream&, const string<Syn>&);
 
    /*
     * Comparators: string-char*.
     */
-   friend bool operator== <Syn>(const string<Syn>&, const char*);
-   friend bool operator!= <Syn>(const string<Syn>&, const char*);
-   friend bool operator<  <Syn>(const string<Syn>&, const char*);
-   friend bool operator>  <Syn>(const string<Syn>&, const char*);
-   friend bool operator<= <Syn>(const string<Syn>&, const char*);
-   friend bool operator>= <Syn>(const string<Syn>&, const char*);
+   friend bool operator== (const string<Syn>&, const char*);
+   friend bool operator!= (const string<Syn>&, const char*);
+   friend bool operator<  (const string<Syn>&, const char*);
+   friend bool operator>  (const string<Syn>&, const char*);
+   friend bool operator<= (const string<Syn>&, const char*);
+   friend bool operator>= (const string<Syn>&, const char*);
 
-   friend bool operator== <Syn>(const char*, const string<Syn>&);
-   friend bool operator!= <Syn>(const char*, const string<Syn>&);
-   friend bool operator<  <Syn>(const char*, const string<Syn>&);
-   friend bool operator>  <Syn>(const char*, const string<Syn>&);
-   friend bool operator<= <Syn>(const char*, const string<Syn>&);
-   friend bool operator>= <Syn>(const char*, const string<Syn>&);
+   friend bool operator== (const char*, const string<Syn>&);
+   friend bool operator!= (const char*, const string<Syn>&);
+   friend bool operator<  (const char*, const string<Syn>&);
+   friend bool operator>  (const char*, const string<Syn>&);
+   friend bool operator<= (const char*, const string<Syn>&);
+   friend bool operator>= (const char*, const string<Syn>&);
 
    /*
     * Comparators: string-string.
     */
-   friend bool operator== <Syn>(const string<Syn>&, const string<Syn>&);
-   friend bool operator!= <Syn>(const string<Syn>&, const string<Syn>&);
-   friend bool operator<  <Syn>(const string<Syn>&, const string<Syn>&);
-   friend bool operator>  <Syn>(const string<Syn>&, const string<Syn>&);
-   friend bool operator<= <Syn>(const string<Syn>&, const string<Syn>&);
-   friend bool operator>= <Syn>(const string<Syn>&, const string<Syn>&);
+   friend bool operator== (const string<Syn>&, const string<Syn>&);
+   friend bool operator!= (const string<Syn>&, const string<Syn>&);
+   friend bool operator<  (const string<Syn>&, const string<Syn>&);
+   friend bool operator>  (const string<Syn>&, const string<Syn>&);
+   friend bool operator<= (const string<Syn>&, const string<Syn>&);
+   friend bool operator>= (const string<Syn>&, const string<Syn>&);
 
    /*
     * Comparison to char*.

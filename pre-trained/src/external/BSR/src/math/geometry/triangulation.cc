@@ -12,11 +12,11 @@
 #include "lang/exceptions/ex_invalid_argument.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/geometry/point_2D.hh"
 #include "math/geometry/sym_edge.hh"
 #include "math/geometry/triangle_2D.hh"
 #include "math/geometry/triangulation.hh"
+#include <memory>
 
 namespace math {
 namespace geometry {
@@ -33,7 +33,7 @@ using lang::array;
 using lang::exceptions::ex_index_out_of_bounds;
 using lang::exceptions::ex_invalid_argument;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /***************************************************************************
  * Constructors and destructor.
@@ -192,7 +192,6 @@ auto_ptr<triangulation> triangulation::delaunay(
    /* sort vertices in lexicographic order */
    class vrtx_compare : public comparable_functor<vrtx> {
    public:
-       vrtx_compare(){} // EDIT: Jordi Pont-Tuset <jordi.pont@upc.edu> to compile on OSX Mavericks
       int operator()(const vrtx& v0, const vrtx& v1) const {
          return v0.p.compare_to(v1.p);
       }

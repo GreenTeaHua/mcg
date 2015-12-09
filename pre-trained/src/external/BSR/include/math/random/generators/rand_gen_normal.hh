@@ -6,10 +6,10 @@
 
 #include "concurrent/threads/synchronization/locks/auto_lock.hh"
 #include "concurrent/threads/synchronization/synchronizables/unsynchronized.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/random/generators/rand_gen.hh"
 #include "math/random/sources/rand_source.hh"
 #include "math/random/sources/rand_source_default.hh"
+#include <memory>
 
 namespace math {
 namespace random {
@@ -19,9 +19,9 @@ namespace generators {
  */
 using concurrent::threads::synchronization::locks::auto_lock;
 using concurrent::threads::synchronization::synchronizables::unsynchronized;
-using lang::pointers::auto_ptr;
 using math::random::sources::rand_source;
 using math::random::sources::rand_source_default;
+using namespace std;
 
 /*
  * Base class containing code common to all rand_gen_normal<T,Syn> templates.

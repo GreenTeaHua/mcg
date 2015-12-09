@@ -988,93 +988,93 @@ public:
    /*
     * Binary cmatrix-real comparators.
     */
-   friend matrix<bool,Syn> operator== (const cmatrix<T,Syn>&, const T&);
-   friend matrix<bool,Syn> operator!= (const cmatrix<T,Syn>&, const T&);
-   friend matrix<bool,Syn> operator<  (const cmatrix<T,Syn>&, const T&);
-   friend matrix<bool,Syn> operator>  (const cmatrix<T,Syn>&, const T&);
-   friend matrix<bool,Syn> operator<= (const cmatrix<T,Syn>&, const T&);
-   friend matrix<bool,Syn> operator>= (const cmatrix<T,Syn>&, const T&);
+   friend matrix<bool,Syn> operator== <T,Syn>(const cmatrix<T,Syn>&, const T&);
+   friend matrix<bool,Syn> operator!= <T,Syn>(const cmatrix<T,Syn>&, const T&);
+   friend matrix<bool,Syn> operator<  <T,Syn>(const cmatrix<T,Syn>&, const T&);
+   friend matrix<bool,Syn> operator>  <T,Syn>(const cmatrix<T,Syn>&, const T&);
+   friend matrix<bool,Syn> operator<= <T,Syn>(const cmatrix<T,Syn>&, const T&);
+   friend matrix<bool,Syn> operator>= <T,Syn>(const cmatrix<T,Syn>&, const T&);
    
-   friend matrix<bool,Syn> operator== (const T&, const cmatrix<T,Syn>&);
-   friend matrix<bool,Syn> operator!= (const T&, const cmatrix<T,Syn>&);
-   friend matrix<bool,Syn> operator<  (const T&, const cmatrix<T,Syn>&);
-   friend matrix<bool,Syn> operator>  (const T&, const cmatrix<T,Syn>&);
-   friend matrix<bool,Syn> operator<= (const T&, const cmatrix<T,Syn>&);
-   friend matrix<bool,Syn> operator>= (const T&, const cmatrix<T,Syn>&);
+   friend matrix<bool,Syn> operator== <T,Syn>(const T&, const cmatrix<T,Syn>&);
+   friend matrix<bool,Syn> operator!= <T,Syn>(const T&, const cmatrix<T,Syn>&);
+   friend matrix<bool,Syn> operator<  <T,Syn>(const T&, const cmatrix<T,Syn>&);
+   friend matrix<bool,Syn> operator>  <T,Syn>(const T&, const cmatrix<T,Syn>&);
+   friend matrix<bool,Syn> operator<= <T,Syn>(const T&, const cmatrix<T,Syn>&);
+   friend matrix<bool,Syn> operator>= <T,Syn>(const T&, const cmatrix<T,Syn>&);
 
    /*
     * Binary cmatrix-complex comparators.
     */
    friend matrix<bool,Syn>
-      operator== (const cmatrix<T,Syn>&, const complex<T>&);
+      operator== <T,Syn>(const cmatrix<T,Syn>&, const complex<T>&);
    friend matrix<bool,Syn>
-      operator!= (const cmatrix<T,Syn>&, const complex<T>&);
+      operator!= <T,Syn>(const cmatrix<T,Syn>&, const complex<T>&);
    friend matrix<bool,Syn>
-      operator<  (const cmatrix<T,Syn>&, const complex<T>&);
+      operator<  <T,Syn>(const cmatrix<T,Syn>&, const complex<T>&);
    friend matrix<bool,Syn>
-      operator>  (const cmatrix<T,Syn>&, const complex<T>&);
+      operator>  <T,Syn>(const cmatrix<T,Syn>&, const complex<T>&);
    friend matrix<bool,Syn>
-      operator<= (const cmatrix<T,Syn>&, const complex<T>&);
+      operator<= <T,Syn>(const cmatrix<T,Syn>&, const complex<T>&);
    friend matrix<bool,Syn>
-      operator>= (const cmatrix<T,Syn>&, const complex<T>&);
+      operator>= <T,Syn>(const cmatrix<T,Syn>&, const complex<T>&);
    
    friend matrix<bool,Syn>
-      operator== (const complex<T>&, const cmatrix<T,Syn>&);
+      operator== <T,Syn>(const complex<T>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator!= (const complex<T>&, const cmatrix<T,Syn>&);
+      operator!= <T,Syn>(const complex<T>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<  (const complex<T>&, const cmatrix<T,Syn>&);
+      operator<  <T,Syn>(const complex<T>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>  (const complex<T>&, const cmatrix<T,Syn>&);
+      operator>  <T,Syn>(const complex<T>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<= (const complex<T>&, const cmatrix<T,Syn>&);
+      operator<= <T,Syn>(const complex<T>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>= (const complex<T>&, const cmatrix<T,Syn>&);
+      operator>= <T,Syn>(const complex<T>&, const cmatrix<T,Syn>&);
 
    /*
     * Binary cmatrix-matrix comparators.
     */
    friend matrix<bool,Syn>
-      operator== (const cmatrix<T,Syn>&, const matrix<T,Syn>&);
+      operator== <T,Syn>(const cmatrix<T,Syn>&, const matrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator!= (const cmatrix<T,Syn>&, const matrix<T,Syn>&);
+      operator!= <T,Syn>(const cmatrix<T,Syn>&, const matrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<  (const cmatrix<T,Syn>&, const matrix<T,Syn>&);
+      operator<  <T,Syn>(const cmatrix<T,Syn>&, const matrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>  (const cmatrix<T,Syn>&, const matrix<T,Syn>&);
+      operator>  <T,Syn>(const cmatrix<T,Syn>&, const matrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<= (const cmatrix<T,Syn>&, const matrix<T,Syn>&);
+      operator<= <T,Syn>(const cmatrix<T,Syn>&, const matrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>= (const cmatrix<T,Syn>&, const matrix<T,Syn>&);
+      operator>= <T,Syn>(const cmatrix<T,Syn>&, const matrix<T,Syn>&);
 
    friend matrix<bool,Syn>
-      operator== (const matrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator== <T,Syn>(const matrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator!= (const matrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator!= <T,Syn>(const matrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<  (const matrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator<  <T,Syn>(const matrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>  (const matrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator>  <T,Syn>(const matrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<= (const matrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator<= <T,Syn>(const matrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>= (const matrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator>= <T,Syn>(const matrix<T,Syn>&, const cmatrix<T,Syn>&);
 
    /*
     * Binary cmatrix-cmatrix comparators.
     */
    friend matrix<bool,Syn>
-      operator== (const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator== <T,Syn>(const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator!= (const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator!= <T,Syn>(const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<  (const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator<  <T,Syn>(const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>  (const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator>  <T,Syn>(const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator<= (const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator<= <T,Syn>(const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
    friend matrix<bool,Syn>
-      operator>= (const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
+      operator>= <T,Syn>(const cmatrix<T,Syn>&, const cmatrix<T,Syn>&);
 
    /*
     * Unary arithmetic operators.

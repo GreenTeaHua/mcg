@@ -4,18 +4,18 @@
 #ifndef MATH__LIBRARIES__LIB_MATRIX_HH
 #define MATH__LIBRARIES__LIB_MATRIX_HH
 
-#include "lang/pointers/auto_ptr.hh"
 #include "math/matrices/cmatrix.hh"
 #include "math/matrices/matrix.hh"
+#include <memory>
 
 namespace math {
 namespace libraries {
 /*
  * Imports.
  */
-using lang::pointers::auto_ptr;
 using math::matrices::cmatrix;
 using math::matrices::matrix;
+using namespace std;
 
 /*
  * Matrix functions.

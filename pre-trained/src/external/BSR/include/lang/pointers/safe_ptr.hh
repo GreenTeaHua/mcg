@@ -15,9 +15,9 @@
  * Enable/disable null pointer dereference checking for safe pointers.
  */
 #if CONFIG__SAFETY__CHECK_DEREFERENCE
-   #define LANG__POINTERS__SAFE_PTR__CHECK_DEREFERENCE (true)
+   #define LANG__POINTERS__SAFE_PTR__CHECK_DEREFERENCE 1
 #else
-   #define LANG__POINTERS__SAFE_PTR__CHECK_DEREFERENCE (false)
+   #define LANG__POINTERS__SAFE_PTR__CHECK_DEREFERENCE 0
 #endif
 
 namespace lang {

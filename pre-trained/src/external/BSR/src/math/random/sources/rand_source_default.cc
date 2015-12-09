@@ -4,7 +4,6 @@
  * The current implementation uses the 64-bit mersenne twister.
  */
 #include "lang/array.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "lang/typecasts/dynamic_typecast.hh"
 #include "math/random/sources/rand_source_default.hh"
 #include "math/random/sources/mersenne_twister_64.hh"
@@ -16,7 +15,6 @@ namespace sources {
  * Impotrs.
  */
 using lang::array;
-using lang::pointers::auto_ptr;
 using lang::typecasts::dynamic_typecast;
 
 /*

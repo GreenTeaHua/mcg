@@ -4,7 +4,7 @@
 #ifndef CONCURRENT__THREADS__SYNCHRONIZATION__MUTEX_HH
 #define CONCURRENT__THREADS__SYNCHRONIZATION__MUTEX_HH
 
-#include <pthread.h>
+#include "pthread.h"
 
 namespace concurrent { 
 namespace threads {

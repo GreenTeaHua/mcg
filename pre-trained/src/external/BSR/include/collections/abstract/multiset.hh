@@ -10,7 +10,7 @@
 #include "collections/abstract/collection.hh"
 #include "collections/list.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 namespace abstract {
@@ -18,7 +18,6 @@ namespace abstract {
  * Imports.
  */
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 
 /*
  * Abstract base class for multisets.
@@ -80,7 +79,7 @@ public:
    /*
     * Return iterator over elements.
     */
-   virtual auto_ptr< iterator<T> > iter_create() const = 0;
+   virtual std::auto_ptr< iterator<T> > iter_create() const = 0;
 };
 
 /*

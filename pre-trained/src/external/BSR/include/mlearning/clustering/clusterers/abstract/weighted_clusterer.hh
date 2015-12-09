@@ -11,8 +11,8 @@
 #include "collections/list.hh"
 #include "collections/pointers/auto_collection.hh"
 #include "lang/array.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "mlearning/clustering/clusterers/abstract/clusterer.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -25,7 +25,6 @@ using collections::abstract::collection;
 using collections::list;
 using collections::pointers::auto_collection;
 using lang::array;
-using lang::pointers::auto_ptr;
 
 /*
  * Base class containing code common to all weighted_clusterer<T> templates.
@@ -99,7 +98,7 @@ array<unsigned long> weighted_clusterer<T>::cluster(
    auto_collection< double, list<double> > weights(new list<double>());
    unsigned long n_items = items.size();
    for (unsigned long n = 0; n < n_items; n++) {
-      auto_ptr<double> w(new double(1));
+      std::auto_ptr<double> w(new double(1));
       weights->add(*w);
       w.release();
    }

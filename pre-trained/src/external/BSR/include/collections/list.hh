@@ -19,7 +19,7 @@
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 /*
@@ -40,7 +40,7 @@ using io::serialization::serializer;
 using io::serialization::serializers;
 using lang::exceptions::ex_not_found;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare classes for iterators over linked lists.
@@ -180,8 +180,8 @@ public:
    /*
     * Return iterators over elements.
     */
-   auto_ptr< iterator<T> > iter_create() const;
-   auto_ptr< iterator<T> > iter_reverse_create() const;
+   std::auto_ptr< iterator<T> > iter_create() const;
+   std::auto_ptr< iterator<T> > iter_reverse_create() const;
  
    /*
     * Sort elements in ascending order according to the given comparison
@@ -515,7 +515,7 @@ list<T,Syn>::list(const collection<T>& c)
 {
    /* add elements to empty list */
    list<T,Syn> l;
-   auto_ptr< iterator<T> > i = c.iter_create();
+   std::auto_ptr< iterator<T> > i = c.iter_create();
    if (i->has_next()) {
       l._head = new list_node(i->next());
       l._tail = l._head;
@@ -605,7 +605,7 @@ auto_collection< T, list<T,Syn> > list<T,Syn>::deserialize(
    unsigned long size = 0;
    s >> size;
    for (unsigned long n = 0; n < size; n++) {
-      auto_ptr<T> t = slzr.deserialize(s);
+      std::auto_ptr<T> t = slzr.deserialize(s);
       l->add(*t);
       t.release();
    }
@@ -945,16 +945,16 @@ unsigned long list<T,Syn>::size() const {
  * Return iterator over elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<T> > list<T,Syn>::iter_create() const {
-   return auto_ptr< iterator<T> >(new list_iterator<T,Syn>(*this));
+std::auto_ptr< iterator<T> > list<T,Syn>::iter_create() const {
+   return std::auto_ptr< iterator<T> >(new list_iterator<T,Syn>(*this));
 }
 
 /*
  * Return reverse iterator over elements.
  */
 template <typename T, typename Syn>
-auto_ptr< iterator<T> > list<T,Syn>::iter_reverse_create() const {
-   return auto_ptr< iterator<T> >(new list_iterator_reverse<T,Syn>(*this));
+std::auto_ptr< iterator<T> > list<T,Syn>::iter_reverse_create() const {
+   return std::auto_ptr< iterator<T> >(new list_iterator_reverse<T,Syn>(*this));
 }
 
 /*

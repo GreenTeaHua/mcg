@@ -10,8 +10,8 @@
 #include "collections/pointers/auto_collection.hh"
 #include "collections/splay_set.hh"
 #include "lang/array.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/geometry/point_2D.hh"
+#include <memory>
 
 namespace math {
 namespace geometry {
@@ -24,7 +24,6 @@ using collections::list;
 using collections::pointers::auto_collection;
 using collections::splay_set;
 using lang::array;
-using lang::pointers::auto_ptr;
 
 /*
  * Line segment intersection.
@@ -139,7 +138,6 @@ public:
     */
    point_2D& vertex(unsigned long /* vertex id */) const;
 
-protected:
    /************************************************************************
     * Line segment intersection data structure.
     ************************************************************************/
@@ -184,6 +182,8 @@ protected:
       vrtx& v_lower;          /* lower endpoint */
       vrtx& v_upper;          /* upper endpoint */
    };
+   
+protected:
   
    /*
     * Intersection points that are not segment endpoints.
@@ -247,7 +247,7 @@ protected:
     * (3) If the lexicographically smallest intersection point lies in the
     *     interior of both segments, the approximate intersection is returned.
     */
-   static auto_ptr<point_2D> compute_segment_intersection(
+   static std::auto_ptr<point_2D> compute_segment_intersection(
       const seg&, const seg&, double& /* global distance tolerance */
    );
 

@@ -10,7 +10,7 @@
 #include "lang/exceptions/ex_not_found.hh"
 #include "lang/null.hh"
 
-#include <pthread.h>
+#include "pthread.h"
 
 namespace concurrent {
 namespace threads {

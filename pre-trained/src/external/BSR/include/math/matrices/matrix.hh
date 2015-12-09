@@ -32,11 +32,13 @@
 /* 
  * Enable/disable bounds checking for matrices.
  */
-//#if CONFIG__SAFETY__CHECK_BOUNDS
+#define CONFIG__SAFETY__CHECK_BOUNDS 1
+
+#if CONFIG__SAFETY__CHECK_BOUNDS
    #define MATH__MATRICES__MATRIX__CHECK_BOUNDS 1
-//#else
-//  #define MATH__MATRICES__MATRIX__CHECK_BOUNDS (false)
-//#endif
+#else
+   #define MATH__MATRICES__MATRIX__CHECK_BOUNDS 0
+#endif
 
 /*
  * Declare existence of libraries that will need friend access to matrices.
@@ -738,7 +740,7 @@ public:
    /*
     * Deserialize.
     */
-   static auto_ptr< matrix<T,Syn> > deserialize(
+   static std::auto_ptr< matrix<T,Syn> > deserialize(
       serial_input_stream&,
       const serializer<T>& = serializers<T>::s_default()
    );
@@ -1991,14 +1993,14 @@ void matrix<T,Syn>::serialize(
  * Deserialize.
  */
 template <typename T, typename Syn>
-auto_ptr< matrix<T,Syn> > matrix<T,Syn>::deserialize(
+std::auto_ptr< matrix<T,Syn> > matrix<T,Syn>::deserialize(
    serial_input_stream& s, const serializer<T>& slzr)
 {
    /* deserialize dimensions and data */
-   auto_ptr< array<unsigned long> > dims = array<unsigned long>::deserialize(s);
-   auto_ptr< array<T,Syn> > data = array<T,Syn>::deserialize(s, slzr);
+   std::auto_ptr< array<unsigned long> > dims = array<unsigned long>::deserialize(s);
+   std::auto_ptr< array<T,Syn> > data = array<T,Syn>::deserialize(s, slzr);
    /* allocate matrix and swap in dimensions, data */
-   auto_ptr< matrix<T,Syn> > m(new matrix<T,Syn>());
+   std::auto_ptr< matrix<T,Syn> > m(new matrix<T,Syn>());
    array<unsigned long>::swap(m->_dims, *dims);
    array<T,Syn>::swap(*m, *data);
    return m;

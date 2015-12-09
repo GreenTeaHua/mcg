@@ -30,7 +30,7 @@
 #include "io/serialization/serial_input_stream.hh"
 #include "io/serialization/serial_output_stream.hh"
 #include "io/streams/ostream.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace math {
 /*
@@ -46,7 +46,7 @@ using interfaces::comparable;
 using io::serialization::serial_input_stream;
 using io::serialization::serial_output_stream;
 using io::streams::ostream;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare existence of exact_fp class.

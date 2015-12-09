@@ -10,8 +10,8 @@
 #include "functors/keyable_functors.hh"
 #include "lang/exceptions/ex_invalid_argument.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/matrices/matrix.hh"
+#include <memory>
 
 namespace math {
 namespace matrices {
@@ -26,7 +26,6 @@ using ::functors::keyable_compare_functor;
 using ::functors::keyable_split_functor;
 using lang::exceptions::ex_invalid_argument;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 using math::matrices::matrix;
 
 /*
@@ -63,7 +62,7 @@ public:
             "attempt to split empty collection"
          );
       /* check that all matrices have the same size */
-      auto_ptr< iterator< matrix<T> > > i = c.iter_create();
+      std::auto_ptr< iterator< matrix<T> > > i = c.iter_create();
       unsigned long n_dims = i->next().size();
       while (i->has_next()) {
          if (i->next().size() != n_dims)

@@ -4,9 +4,13 @@
 #include "io/serialization/serial_input_stream.hh"
 #include "io/serialization/serial_output_stream.hh"
 #include "io/streams/ostream.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/exact.hh"
 #include "math/math.hh"
+#include <memory>
+
+#ifndef __APPLE__
+//#include <fpu_control.h>
+#endif
 
 namespace math {
 /*
@@ -15,7 +19,7 @@ namespace math {
 using io::serialization::serial_input_stream;
 using io::serialization::serial_output_stream;
 using io::streams::ostream;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /***************************************************************************
  * Initialization and error bounds.
@@ -30,6 +34,15 @@ namespace {
     * precision floating-point arithmetic.
     */
    void exact_fp_init(double& epsilon, double& splitter) {
+      /* initialize floatin-point unit for exact arithmetic */
+#ifndef __APPLE__
+       /*
+      int cword = _FPU_DEFAULT;
+      cword &= ~(_FPU_EXTENDED | _FPU_DOUBLE | _FPU_SINGLE);
+      cword |= _FPU_DOUBLE;
+      _FPU_SETCW(cword);
+      */
+#endif
       /* compute relative error bound and splitter */
       epsilon  = 1.0;
       splitter = 1.0;

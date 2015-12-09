@@ -4,8 +4,8 @@
 #include "collections/abstract/collection.hh"
 #include "lang/array.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "mlearning/clustering/clusterers/abstract/weighted_clusterer.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -17,7 +17,7 @@ namespace abstract {
 using collections::abstract::collection;
 using lang::array;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Pure virtual destructor.

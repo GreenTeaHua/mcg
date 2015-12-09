@@ -15,9 +15,9 @@
 #include "concurrent/threads/runnable.hh"
 #include "concurrent/threads/thread.hh"
 #include "lang/array.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "mlearning/clustering/clusterers/abstract/centroid_clusterer.hh"
 #include "mlearning/clustering/metrics/metric.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -34,7 +34,6 @@ using concurrent::threads::child_thread;
 using concurrent::threads::runnable;
 using concurrent::threads::thread;
 using lang::array;
-using lang::pointers::auto_ptr;
 using mlearning::clustering::metrics::metric;
 
 /*
@@ -554,7 +553,7 @@ void metric_clusterer<T,V>::centroid_updater::run() {
       for (unsigned long n = _start; n <= _end; n++) {
          unsigned long id = _changed_ids[n];
          if (!(_cluster_items[id].is_empty())) {
-            auto_ptr<T> cntrd = _metric.centroid(
+            std::auto_ptr<T> cntrd = _metric.centroid(
                _cluster_items[id],
                _cluster_weights[id]
             );

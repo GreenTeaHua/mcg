@@ -19,7 +19,7 @@
 #include "lang/exceptions/ex_invalid_argument.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 /*
@@ -34,7 +34,7 @@ using functors::comparable_functor;
 using functors::compare_functors;
 using lang::exceptions::ex_invalid_argument;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare classes for iterators over elements in the domain of the map.
@@ -188,35 +188,34 @@ public:
    auto_ptr< iterator<T> > iter_create() const;
    auto_ptr< iterator<T> > iter_reverse_create() const;
 
-protected:
    /************************************************************************
-    * Map data structures.
-    ************************************************************************/
+   * Map data structures.
+   ************************************************************************/
 
    /*
-    * Image of an element under a map.
-    */
+   * Image of an element under a map.
+   */
    class map_image {
    public:
-      /*
+       /*
        * Constructor.
        */
-      explicit map_image(U& item) : u(item) { }
+       explicit map_image(U& item) : u(item) { }
 
-      /*
+       /*
        * Copy constructor.
        */
-      map_image(const map_image& m) : u(m.u) { }
+       map_image(const map_image& m) : u(m.u) { }
 
-      /*
+       /*
        * Destructor.
        */
-      ~map_image() { /* do nothing */ }
-     
-      /*
+       ~map_image() { /* do nothing */ }
+
+       /*
        * Data.
        */
-      U& u;
+       U& u;
    };
    
    /*
@@ -261,6 +260,8 @@ protected:
       T& t;
       auto_ptr<map_image> img;
    };
+
+protected:
 
    /*
     * Comparison functor on mappings.

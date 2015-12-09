@@ -7,7 +7,7 @@
 #include "collections/abstract/collection.hh"
 #include "functors/comparable_functors.hh"
 #include "lang/iterators/iterator.hh"
-#include "lang/pointers/auto_ptr.hh"
+#include <memory>
 
 namespace collections {
 namespace abstract {
@@ -17,7 +17,7 @@ namespace abstract {
 using functors::comparable_functor;
 using functors::compare_functors;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Abstract base class for lists.

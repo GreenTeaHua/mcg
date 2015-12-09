@@ -18,8 +18,8 @@
 #include "lang/array.hh"
 #include "lang/iterators/iterator.hh"
 #include "lang/null.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "mlearning/clustering/clusterers/abstract/clusterer.hh"
+#include <memory>
 
 namespace mlearning {
 namespace clustering {
@@ -38,8 +38,8 @@ using functors::comparable_functor;
 using functors::compare_functors;
 using lang::array;
 using lang::iterators::iterator;
-using lang::pointers::auto_ptr;
 using mlearning::clustering::clusterers::abstract::clusterer;
+using namespace std;
 
 /*
  * Agglomerative cluterer on undirected graphs.
@@ -149,6 +149,12 @@ public:
       auto_collection< V, array_list<V> >&         /* clustering result */
    ) const;
 
+   /*
+   * Declare node and edge classes.
+   */
+   class node;
+   class edge;
+
 protected:
    /*
     * List of merged vertex numbers.
@@ -178,12 +184,6 @@ protected:
        */
       v_list(const v_list& v_lst) : v_num(v_lst.v_num), next(v_lst.next) { }
    };
-   
-   /*
-    * Declare node and edge classes.
-    */
-   class node;
-   class edge;
    
    /*
     * Node in the graph.

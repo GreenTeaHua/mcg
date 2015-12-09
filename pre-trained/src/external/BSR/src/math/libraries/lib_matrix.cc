@@ -1,12 +1,12 @@
 /*
  * Matrix library.
  */
-#include "lang/pointers/auto_ptr.hh"
 #include "math/complex.hh"
 #include "math/libraries/lib_matrix.hh"
 #include "math/math.hh"
 #include "math/matrices/cmatrix.hh"
 #include "math/matrices/matrix.hh"
+#include <memory>
 
 /* FIXME */
 #include "lang/exceptions/ex_not_implemented.hh"
@@ -16,10 +16,10 @@ namespace libraries {
 /*
  * Imports.
  */
-using lang::pointers::auto_ptr;
 using math::complex;
 using math::matrices::matrix;
 using math::matrices::cmatrix;
+using namespace std;
 
 /* FIXME */
 using lang::exceptions::ex_not_implemented;

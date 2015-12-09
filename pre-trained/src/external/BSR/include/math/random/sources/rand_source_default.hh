@@ -6,8 +6,8 @@
 #ifndef MATH__RANDOM__SOURCES__RAND_SOURCE_DEFAULT_HH
 #define MATH__RANDOM__SOURCES__RAND_SOURCE_DEFAULT_HH
 
-#include "lang/pointers/auto_ptr.hh"
 #include "math/random/sources/rand_source.hh"
+#include <memory>
 
 namespace math {
 namespace random {
@@ -15,7 +15,6 @@ namespace sources {
 /*
  * Impotrs.
  */
-using lang::pointers::auto_ptr;
 
 /*
  * Default pseudorandom source.
@@ -90,7 +89,7 @@ public:
    long double gen_uniform_open_long_double();
 
 protected:
-   auto_ptr<rand_source> _r;  /* random source to use */
+   std::auto_ptr<rand_source> _r;  /* random source to use */
 };
 
 } /* namespace sources */

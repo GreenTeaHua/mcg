@@ -5,9 +5,9 @@
 #include "concurrent/threads/thread.hh"
 #include "lang/null.hh"
 
-#include <pthread.h>
+#include "pthread.h"
 #include <time.h>
-#include <unistd.h>
+#include <Windows.h>
 
 namespace concurrent {
 namespace threads {
@@ -108,11 +108,14 @@ void* thread::thread_run(void* t) {
  * The sleep may be interrupted by a signal.
  */
 void thread::sleep_sec(unsigned long n) {
+    /*
    struct timespec req;
    struct timespec rem;
    req.tv_sec  = static_cast<time_t>(n);
    req.tv_nsec = 0;
    nanosleep(&req, &rem);
+   */
+    Sleep(n * 1000);
 }
 
 /*
@@ -120,12 +123,15 @@ void thread::sleep_sec(unsigned long n) {
  * The sleep may be interrupted by a signal.
  */
 void thread::sleep_usec(unsigned long n) {
+    /*
    struct timespec req;
    struct timespec rem;
    long sec    = (static_cast<long>(n))/(long(1000000));
    req.tv_sec  = static_cast<time_t>(sec);
    req.tv_nsec = (static_cast<long>(n) - (sec*1000000))*1000;
    nanosleep(&req, &rem);
+   */
+    Sleep(1);
 }
 
 /*
@@ -133,12 +139,15 @@ void thread::sleep_usec(unsigned long n) {
  * The sleep may be interrupted by a signal.
  */
 void thread::sleep_nsec(unsigned long n) {
+    /*
    struct timespec req;
    struct timespec rem;
    long sec    = (static_cast<long>(n))/(long(1000000000));
    req.tv_sec  = static_cast<time_t>(sec);
    req.tv_nsec = (static_cast<long>(n) - (sec*1000000000));
    nanosleep(&req, &rem);
+   */
+    Sleep(1);
 }
 
 /*
@@ -157,8 +166,10 @@ unsigned long thread::processors() {
  * number of processors on the machine.  Return the new count.
  */
 unsigned long thread::processors(unsigned long n) {
+    SYSTEM_INFO sysInfo;
+    ::GetSystemInfo(&sysInfo);
    if (n == 0)
-      n = 1;
+       n = static_cast<unsigned long>(sysInfo.dwNumberOfProcessors);
    thread::n_processors_key().get() = n;
    return n;
 }
@@ -177,8 +188,10 @@ thread_key<unsigned long>& thread::n_processors_key() {
  * Initialize the processor count to the actual number of processors.
  */
 unsigned long& thread::n_processors_main() {
+    SYSTEM_INFO sysInfo;
+    ::GetSystemInfo(&sysInfo);
    static unsigned long n_procs_main 
-      = 1;
+       = static_cast<unsigned long>(sysInfo.dwNumberOfProcessors);
    return n_procs_main;
 }
 

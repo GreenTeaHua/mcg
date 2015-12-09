@@ -14,8 +14,8 @@
 #include "io/serialization/serial_output_stream.hh"
 #include "io/serialization/serializers.hh"
 #include "io/streams/ostream.hh"
-#include "lang/pointers/auto_ptr.hh"
 #include "math/math.hh"
+#include <memory>
 
 namespace math {
 /*
@@ -32,7 +32,7 @@ using io::serialization::serial_output_stream;
 using io::serialization::serializer;
 using io::serialization::serializers;
 using io::streams::ostream;
-using lang::pointers::auto_ptr;
+using namespace std;
 
 /*
  * Declare existence of complex class.
@@ -213,7 +213,7 @@ public:
    /*
     * Formatted output to stream.
     */
-   friend ostream& operator<< <T,Syn>(ostream&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend ostream& operator<< <T,Syn>(ostream&, const complex<T,Syn>&);
 
    /*
     * Assignment operators: complex-real.
@@ -247,54 +247,50 @@ public:
    /*
     * Binary complex-real operators.
     */
-   friend complex<T,Syn> operator+ <T,Syn>(const complex<T,Syn>&, const T&);
-   friend complex<T,Syn> operator- <T,Syn>(const complex<T,Syn>&, const T&);
-   friend complex<T,Syn> operator* <T,Syn>(const complex<T,Syn>&, const T&);
-   friend complex<T,Syn> operator/ <T,Syn>(const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator+ (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator- (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator* (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator/ (const complex<T,Syn>&, const T&);
 
-   friend complex<T,Syn> operator+ <T,Syn>(const T&, const complex<T,Syn>&);
-   friend complex<T,Syn> operator- <T,Syn>(const T&, const complex<T,Syn>&);
-   friend complex<T,Syn> operator* <T,Syn>(const T&, const complex<T,Syn>&);
-   friend complex<T,Syn> operator/ <T,Syn>(const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator+ (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator- (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator* (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator/ (const T&, const complex<T,Syn>&);
    
    /*
     * Binary complex-complex operators.
     */
-   friend complex<T,Syn>
-      operator+ <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend complex<T,Syn>
-      operator- <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend complex<T,Syn>
-      operator* <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend complex<T,Syn>
-      operator/ <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator+ (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator- (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator* (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> operator/ (const complex<T,Syn>&, const complex<T,Syn>&);
 
    /*
     * Binary complex-real comparators.
     */
-   friend bool operator== <T,Syn>(const complex<T,Syn>&, const T&);
-   friend bool operator!= <T,Syn>(const complex<T,Syn>&, const T&);
-   friend bool operator<  <T,Syn>(const complex<T,Syn>&, const T&);
-   friend bool operator>  <T,Syn>(const complex<T,Syn>&, const T&);
-   friend bool operator<= <T,Syn>(const complex<T,Syn>&, const T&);
-   friend bool operator>= <T,Syn>(const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend bool operator== (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend bool operator!= (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend bool operator<  (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend bool operator>  (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend bool operator<= (const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend bool operator>= (const complex<T,Syn>&, const T&);
    
-   friend bool operator== <T,Syn>(const T&, const complex<T,Syn>&);
-   friend bool operator!= <T,Syn>(const T&, const complex<T,Syn>&);
-   friend bool operator<  <T,Syn>(const T&, const complex<T,Syn>&);
-   friend bool operator>  <T,Syn>(const T&, const complex<T,Syn>&);
-   friend bool operator<= <T,Syn>(const T&, const complex<T,Syn>&);
-   friend bool operator>= <T,Syn>(const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator== (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator!= (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator<  (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator>  (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator<= (const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator>= (const T&, const complex<T,Syn>&);
    
    /*
     * Binary complex-complex comparators.
     */
-   friend bool operator== <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend bool operator!= <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend bool operator<  <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend bool operator>  <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend bool operator<= <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
-   friend bool operator>= <T,Syn>(const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator== (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator!= (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator<  (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator>  (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator<= (const complex<T,Syn>&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend bool operator>= (const complex<T,Syn>&, const complex<T,Syn>&);
    
    /*
     * Unary arithmetic operators.
@@ -319,46 +315,46 @@ public:
    /*
     * Transcendentals.
     */
-   friend complex<T,Syn> cos<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> sin<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> tan<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> cosh<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> sinh<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> tanh<T,Syn>(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> cos(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> sin(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> tan(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> cosh(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> sinh(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> tanh(const complex<T,Syn>&);
    
-   friend complex<T,Syn> acos<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> asin<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> atan<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> acosh<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> asinh<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> atanh<T,Syn>(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> acos(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> asin(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> atan(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> acosh(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> asinh(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> atanh(const complex<T,Syn>&);
    
-   friend complex<T,Syn> sqrt<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> log<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> exp<T,Syn>(const complex<T,Syn>&);
-   friend complex<T,Syn> pow<T,Syn>(const T&, const complex<T,Syn>&);
-   friend complex<T,Syn> pow<T,Syn>(const complex<T,Syn>&, int);
-   friend complex<T,Syn> pow<T,Syn>(const complex<T,Syn>&, const T&);
-   friend complex<T,Syn> pow<T,Syn>(
+   template <typename T, typename Syn> friend complex<T,Syn> sqrt(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> log(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> exp(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> pow(const T&, const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> pow(const complex<T,Syn>&, int);
+   template <typename T, typename Syn> friend complex<T,Syn> pow(const complex<T,Syn>&, const T&);
+   template <typename T, typename Syn> friend complex<T,Syn> pow(
       const complex<T,Syn>&, const complex<T,Syn>&
    );
   
    /*
     * Two-parameter arctangent of the real parts.
     */
-   friend complex<T,Syn> atan2<T,Syn>(
+   template <typename T, typename Syn> friend complex<T,Syn> atan2(
       const complex<T,Syn>& /* y */, const complex<T,Syn>& /* x */
    );
 
    /*
     * Magnitude.
     */
-   friend T abs<T,Syn>(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend T abs(const complex<T,Syn>&);
 
    /*
     * Argument.
     */
-   friend T arg<T,Syn>(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend T arg(const complex<T,Syn>&);
 
    /*
     * Check if real-valued (zero imaginary component).
@@ -388,7 +384,7 @@ public:
    /*
     * Complex conjugate.
     */
-   friend complex<T,Syn> conj<T,Syn>(const complex<T,Syn>&);
+   template <typename T, typename Syn> friend complex<T,Syn> conj(const complex<T,Syn>&);
 
 protected:
    /*
